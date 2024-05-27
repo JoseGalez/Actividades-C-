@@ -1,0 +1,45 @@
+using System;
+
+class Program {
+  public static void Main (string[] args) {
+    const int cant = 100;
+    int[] alumnos = new int[cant];
+    int nota = 0;
+    int talu = 0;
+    int val = 0;
+    int suma = 0;
+    double prom = 0;
+    double insuf = 0;
+    double bueno = 0;
+    int apro = 0;
+    int repro = 0;
+    int mBueno = 0;
+    int ins = 0;
+    Console.WriteLine("Ingrese la nota del alumno {0} (-1 para finalizar)",talu);
+    nota = Convert.ToInt32(Console.ReadLine());
+    while (nota != -1){
+      alumnos[talu++] = nota;
+      Console.WriteLine("Ingrese la nota del alumno {0} (-1 para finalizar)",talu);
+      nota = Convert.ToInt32(Console.ReadLine());
+    }
+    for (int i = 0; i < talu; i++){ val = alumnos[i];
+      suma = suma + val; 
+      if (val >= 6){
+        apro++;
+      } else {
+        repro++;
+      }
+      if (val >= 8){
+        mBueno++;
+      } else if (val <= 3){
+        ins++;
+      }
+    }
+    bueno = (mBueno * 100) / talu;
+    insuf = (ins * 100) / talu;
+    prom = suma / talu;
+    Console.WriteLine("La cantidad de aprobados son {0} y la de desaprobados son {1}",apro,repro);
+    Console.WriteLine("El porcentaje de Muy Bueno es %{0} y el de insuficiente es % {1} ");
+    Console.WriteLine("El promedio de notas es: {0}",prom);
+  }
+}

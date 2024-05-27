@@ -1,0 +1,27 @@
+using System;
+
+class Program {
+  public static void Main (string[] args) {
+    int n1 = 0;
+    int n2 = 0;
+    int ing = 0;
+    int aux = 0;
+    Console.WriteLine ("Ingrese 2 numeros");
+    n1 = Convert.ToInt32(Console.ReadLine());
+    n2 = Convert.ToInt32(Console.ReadLine());
+    if (n1 > n2){
+      aux = n1;
+      n1 = n2;
+      n2 = aux;
+    }
+    Console.WriteLine("Ingrese un numero:");
+    ing = Convert.ToInt32(Console.ReadLine());
+    while (ing >= n1 && ing <= n2){
+      if (ing % 2 == 0 && ing % 3 == 0){
+        Console.WriteLine("Este Numero es divisible por 2 y 3: {0}",ing);
+      }
+      Console.WriteLine("Ingrese un numero:");
+    ing = Convert.ToInt32(Console.ReadLine());
+    }
+  }
+}

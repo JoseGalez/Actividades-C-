@@ -1,0 +1,34 @@
+using System;
+
+class Program {
+  public static void Main (string[] args) {
+    int cantc = 0;
+    Console.WriteLine ("Ingrese la cantidad de canciones del CD");
+    cantc = Convert.ToInt32(Console.ReadLine());
+    int acums = 0;
+    string nmy = "";
+    string nomc = "";
+    int durm = 0;
+    int durs = 0;
+   for (int i = 0; i < cantc;i++){
+      int segt = 0;
+      int segmy = 0;
+      Console.WriteLine("Ingrese el nombre de la canción");
+      nomc = Console.ReadLine();
+      Console.WriteLine("Ingrese la duración en MM:SS");
+       durm = Convert.ToInt32(Console.ReadLine());
+       durs = Convert.ToInt32(Console.ReadLine());
+      segt = (durm * 60) + durs;
+      if (segt > segmy){
+       segmy = segt; 
+       nmy = nomc;
+      }
+      acums = acums + segt;
+    }
+    int hs = acums / 3600;
+    int min = acums / 60;
+    int seg = acums % 60;
+    Console.WriteLine("El tiempo total del CD es:"+ hs + ":" + min + ":" + seg);
+    Console.WriteLine("La canción mas larga es:", nmy);
+  }
+}
