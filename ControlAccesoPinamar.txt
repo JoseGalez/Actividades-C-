@@ -1,0 +1,206 @@
+using System;
+
+class Program {
+    private static double caja = 0;
+    private static int cont = 0;
+    private static string[] chas = new string[100];
+    private static int arr =0;
+    public static void Main(string[] args) {
+        int op = 0;
+        do {
+            Menu();
+            op = Convert.ToInt32(Console.ReadLine());
+            switch (op) {
+                case 1: Registrar(); break;
+                case 2: CantIng(); break;
+                case 3: InfoCaja(); break;
+            case 4: OrdenarBuscar(); break;
+            case 5: Console.WriteLine("Saliendo..."); break;
+                default: Console.WriteLine("Opción no válida. Intente nuevamente."); break;
+            }
+        } while (op != 5);
+        Console.ReadKey();
+    }
+
+    static void Registrar() {
+        string ticket = "";
+        string chasis = "";
+        int tv = 0;
+        int cantv = 0;
+        int dias = 0;
+        double costo = 0;
+        double dcos = 0;
+        double iva = 0;
+        double cco = 0;
+        double cf = 0;
+        MenuSiNo();
+        ticket = Console.ReadLine();
+        if (ticket != "S" && ticket != "s") {
+            cont++;
+            do {
+                MenuVehiculo();
+                tv = Convert.ToInt32(Console.ReadLine());
+            if (tv != 7){
+                MenuCant();
+                cantv = Convert.ToInt32(Console.ReadLine());
+                for (int i = 0;i < cantv;i++){
+                    MenuIDChasis();
+                    chasis =  Console.ReadLine();
+                 chas[arr++]=chasis; 
+                }
+            }
+                switch (tv) {
+                    case 1: costo += cantv * 100; break;
+                    case 2: costo += cantv * 800; break;
+                    case 3: costo += cantv * 1000; break;
+                    case 4: costo += cantv * 1500; break;
+                    case 5: costo += cantv * 5000; break;
+                    case 6: costo += cantv * 1200; break;
+                    default: Console.WriteLine("Tipo de vehículo no válido. Intente nuevamente."); break;
+                }
+            } while (tv != 7);
+
+            MenuDias();
+            dias = Convert.ToInt32(Console.ReadLine());
+            switch (dias) {
+                case 1: dcos += costo * 1; break;
+                case 2: dcos += costo * 1.20; break;
+                case 3: dcos += costo * 2.20; break;
+                case 4: dcos += costo * 3.20; break;
+                default: dcos += costo * 3.80; break;
+            }
+            iva = dcos * 0.21;
+            cco = iva * 0.15;
+            cf = dcos + iva + cco;
+            caja += cf;
+            MenuTicket(dcos, iva, cco, cf);
+        } else {cont++;}
+        Console.ReadKey();
+    }
+    static void OrdenarBuscar(){
+        int op = 0;
+        string c = "";
+        string val= "";
+        do{
+        MenuOrdBus();
+            op = Convert.ToInt32(Console.ReadLine());
+            switch (op){
+            case 1:
+                MenuBuscar();
+                c = Console.ReadLine();
+                val = Buscar(chas,c); 
+                MenuEnct(val);
+                break;
+            case 2:
+                Ordenar(chas);
+                MenuOrdenar();
+                for(int i = 0;i < arr;i++){
+                 val = chas[i];
+                    Console.WriteLine(val);
+                }
+                break;
+            }
+        }while(op!=3);
+        Console.ReadKey();
+        }
+    static void Ordenar(string[] vector){
+        bool ordenado;
+        string aux = "";
+        for (int i = 0; i < arr;i++){
+            ordenado = false;
+            for(int j = 0;j<arr-i;j++){
+                if(string.Compare(vector[j],vector[j+1])>0){
+                    aux = vector[j];
+                    vector[j] = vector[j+1];
+                    vector[j+1] = aux;
+                 ordenado = true;   
+                }
+            }
+            if (!ordenado){
+                break;
+            }
+        }
+    }
+    static string Buscar(string[] vector, string datoBuscar){
+        for (int i = 0; i < arr;i++){
+             if(vector[i]==datoBuscar){
+          return vector[i]; 
+         } 
+        }
+        return null;
+    }
+    static void InfoCaja() {
+        Console.Clear();
+        Console.WriteLine("El Total de Caja es: ${0:F2}", caja);
+        Console.ReadKey();
+    }
+    static void CantIng() {
+        Console.Clear();
+        Console.WriteLine("La Cantidad de Ingresos es: {0}", cont);
+        Console.ReadKey();
+    }
+    static void Menu() {
+        Console.Clear();
+        Console.WriteLine("Puesto de Control");
+        Console.WriteLine("1. Registrar Ingreso");
+        Console.WriteLine("2. Cantidad de Ingresos");
+        Console.WriteLine("3. Informe de Caja");
+        Console.WriteLine("4. Ordenar y Buscar Chasis");
+        Console.WriteLine("5. Salir");
+    }
+    static void MenuVehiculo() {
+        Console.Clear();
+        Console.WriteLine("Tipo de Vehículo");
+        Console.WriteLine("1 - Sin Vehículo");
+        Console.WriteLine("2 - Moto");
+        Console.WriteLine("3 - Auto");
+        Console.WriteLine("4 - Camioneta");
+        Console.WriteLine("5 - Buggy");
+        Console.WriteLine("6 - Vehículo Náutico");
+        Console.WriteLine("7 - Salir");
+    }
+    static void MenuTicket(double sub, double i, double imp, double f) {
+        Console.Clear();
+        Console.WriteLine("Pinamar S.R.L");
+        Console.WriteLine("Subtotal: $ {0:F2}", sub);
+        Console.WriteLine("IVA: $ {0:F2}", i);
+        Console.WriteLine("Imp. boludo: $ {0:F2}", imp);
+        Console.WriteLine("Total: $ {0:F2}", f);
+        Console.ReadKey();
+    }
+    static void MenuSiNo(){
+        Console.Clear();
+        Console.WriteLine("Tiene Ticket: S/N");
+    }
+    static void MenuCant(){
+        Console.Clear();
+        Console.WriteLine("Cantidad de ese Vehículo");
+    }
+    static void MenuDias(){
+        Console.Clear();
+        Console.WriteLine("Ingrese la cantidad de días (un máximo de 10)");
+    }
+    static void MenuIDChasis(){
+        Console.Clear();
+        Console.WriteLine("Ingrese el Identificador del Chasis (NN si es un Buggy)");
+    }
+    static void MenuOrdBus(){
+        Console.Clear();
+        Console.WriteLine("1. Buscar Chasis");
+        Console.WriteLine("2. Ordenar Menor a Mayor Chasis");
+        Console.WriteLine("3.Salir");
+    }
+    static void MenuBuscar(){
+        Console.Clear();
+        Console.WriteLine("Ingrese el  Chasis a Buscar");
+    }
+    static void MenuEnct(string val){
+        Console.Clear();
+        Console.WriteLine("Chasis Encontrado: {0}",val);
+        Console.ReadKey();
+    }
+    static void MenuOrdenar(){
+        Console.Clear();
+        Console.WriteLine("Lista Ordenada");
+    }
+}
