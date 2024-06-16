@@ -1,0 +1,244 @@
+using System;
+
+class Program {
+  #region Variables de Dominio
+  const int ind = 100;
+  static int[] Libreta = new int[ind];
+  static double[] Notas = new double[ind];
+  static string[] Nombres = new string[ind];
+  static int[] Posiciones = new int[ind];
+  static int Cont = 0, Cant = 0;
+  static double Prom = 0;
+  static bool Ordenado = false;
+  #endregion
+  #region Consola principal 
+  public static void Main (string[] args) {
+    int op = 0;
+    MenuPrincipal();
+    op = Convert.ToInt32(Console.ReadLine());
+    while(op != 7){
+      switch(op){
+        case 1:{
+          IngresarList();
+        }break;
+      case 2:{
+        InfProm();
+        }break;
+      case 3:{
+        ListProm();
+        }break;
+      case 4:{
+        BusqLib();
+        }break;
+      case 5:{
+        MayMen();
+        }break;
+      case 6:{ Burbuja();}break;
+      }
+      MenuPrincipal();
+    op = Convert.ToInt32(Console.ReadLine());
+    }
+  }
+  #endregion
+  #region Funciones del Problema
+  static void IngresarList(){
+    int lib = 0;
+    MenuIng();
+    lib = Convert.ToInt32(Console.ReadLine());
+    while(lib != -1){
+      Libreta[Cont] = lib;
+      Nombres[Cont] = Console.ReadLine();
+      Notas[Cont] = Convert.ToDouble(Console.ReadLine());
+      Cont++;
+      MenuIng();
+    lib = Convert.ToInt32(Console.ReadLine());
+    }
+  }
+  static void InfProm(){
+    double acum = 0;
+    for(int i = 0; i < Cont;i++){
+      acum += Notas[i];
+    }
+    Prom = acum / Cont;
+    MenuProm();
+  }
+  static void ListProm(){
+    int lib = 0, idx =0;
+    double not = 0;
+    string nom = "";
+    Posiciones = BusqProm(ref Cant);
+    OrdenProm(Posiciones,Cant);
+    MenuSup();
+    for(int i = 0; i < Cant;i++){
+      idx = Posiciones[i];
+      lib = Libreta[idx];
+      nom = Nombres[idx];
+      not = Notas[idx];
+       MenuListProm(lib,nom,not);
+    }
+  }
+  static int[] BusqProm(ref int coin){
+    coin = 0;
+    int[] posiciones = new int[ind];
+    for(int i = 0; i < Cont; i++){
+      if(Notas[i] >= Prom){
+        posiciones[coin] = i;
+        coin++;
+      }
+    }
+    return posiciones;
+  }
+  static void OrdenProm(int[] datos, int cant){
+    int aux = 0;
+    int i1 = 0,j1 = 0;
+    for (int i = 0; i < cant -1; i++){
+      for(int j = i + 1; j < cant; j++){
+        i1 = datos[i];
+        j1 = datos[j];
+        if(Notas[i1] < Notas[j1]){
+          aux = datos[i];
+          datos[i] = datos[j];
+          datos[j] = aux;
+        }
+      }
+    }
+  }
+  static void BusqLib(){
+    int lib = 0, pos = 0, res = 0;
+    double res3 = 0;
+    string res2 = "";
+    MenuLib();
+    lib = Convert.ToInt32(Console.ReadLine());
+    pos = BusqBinSec(lib);
+    res = Libreta[pos];
+    res2 = Nombres[pos];
+    res3 = Notas[pos];
+    MenuRes(res, res2, res3);
+  }
+  static int BusqBinSec(int lib){
+    int pos = -1;
+    if(Ordenado == false){
+      for(int i = 0; i < Cont; i++){
+        if(Libreta[i] == lib){
+          pos = i;
+        }
+      }
+    } else {
+      pos = BusqBin(lib);}
+    return pos;
+  }
+  static int BusqBin(int lib){
+    int ret = 0
+    -1, izq = 0, der = Cont, mid = 0;
+    bool eureka = false;
+    do{
+      mid = (izq + der)/2;
+      if(Libreta[mid] == lib){
+        eureka = true;
+      } 
+      else { 
+        if(Libreta[mid] < lib){
+          izq = mid + 1;
+        }    
+        else{
+          der = mid - 1;
+        }
+        
+      }
+    }while(izq <= der && eureka == false);
+    if(eureka == true){
+      ret = mid;
+    }
+    return ret;
+  }
+  static void MayMen(){
+    int Lmy = 0, Lme = 0, Pmy, Pme;
+    string Nmy = "", Nme = "";
+    double Nrmy = 0, Nrme = 0;
+    Pmy = Posiciones[Cant];
+    Pme = Posiciones[0];
+    
+    Lmy = Libreta[Pmy];
+    Nmy = Nombres[Pmy];
+    Nrmy = Notas[Pmy];
+    Lme = Libreta[Pme];
+    Nme = Nombres[Pme];
+    Nrme = Notas[Pme];  
+    MenuMayMen(Lmy,Nmy,Nrmy,Lme,Nme,Nrme);
+  }
+  static void Burbuja(){
+    Ordenado = true;
+    int j, i, aux = 0;
+    double aux2 = 0;
+    string aux3 = "";
+    for(i = 0; i < Cont-1;i++){
+      for(j = i+1;j < Cont; j++){
+        if(Notas[i] > Notas[j]){
+          aux = Libreta[i];
+          Libreta[i] = Libreta[j];
+          Libreta[j] = aux;
+
+          aux3 = Nombres[i];
+          Nombres[i] = Nombres[j];
+          Nombres[j] = aux3;
+
+          aux2 = Notas[i];
+          Notas[i] = Notas[j];
+          Notas[j] = aux2;
+        }
+      }
+    }
+  }
+  #endregion
+  #region Procedimientos del Problema
+  static void MenuPrincipal(){
+    Console.Clear();
+    Console.WriteLine("1. Ingresar Lista de Alumnos ");
+    Console.WriteLine("2. Promedio de Notas");
+    Console.WriteLine("3. Lista que superaron el Promedio ");
+    Console.WriteLine("4. Buscar por N° Libreta");
+    Console.WriteLine("5. Mayor Nota y Menor Nota");
+    Console.WriteLine("6. Ordenar Lista");
+    Console.WriteLine("7. Salir");
+    Console.ReadKey();
+  }
+  static void MenuIng(){
+    Console.Clear();
+    Console.WriteLine("Ingrese el N° de Libreta (-1 sale), Nombre y Nota del Alumno");
+    Console.ReadKey();
+  }
+  static void MenuProm(){
+    Console.Clear();
+    Console.WriteLine("El Promedio de Notas es: {0}",Prom);
+    Console.ReadKey();
+  }
+  static void MenuLib(){
+    Console.Clear();
+    Console.WriteLine("Ingrese la Libreta a Buscar");
+    Console.ReadKey();
+  }
+  static void MenuSup(){
+    Console.Clear();
+    Console.WriteLine("Los Alumnos que Superaron el Promedio son:");
+    Console.ReadKey();
+  }
+  static void MenuListProm(int lib, string nom, double not){
+    Console.Clear();
+    Console.WriteLine("{0} | {1} | {2}",lib,nom,not);
+    Console.ReadKey();
+  }
+ static void MenuRes(int res, string res2, double res3){
+   Console.Clear();
+   Console.WriteLine("Libreta N°: {0}", res);
+   Console.WriteLine("Alumno: {0}", res2);
+   Console.WriteLine("Nota: {0}", res3);
+   Console.ReadKey();
+ }
+  static void MenuMayMen(int Lmy, string Nmy, double Nrmy, int Lme, string Nme, double Nrme){
+    Console.Clear();
+    Console.WriteLine("El Alumno con Mayor Nota es: {0} | {1} | {2}",Lmy,Nmy,Nrmy);
+    Console.WriteLine("El Alumno con Menor Nota es: {0} | {1} | {2}",Lme,Nme,Nrme);
+    Console.ReadKey();
+  }
+  #endregion
+}
