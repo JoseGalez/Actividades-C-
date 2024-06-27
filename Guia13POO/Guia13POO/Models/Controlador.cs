@@ -48,15 +48,18 @@ namespace Guia13POO.Models
         }
         public int CorrspxEmp(int nEmp)
         {
-            int  most = 0;
-            for (int i = 0; i < Contador; i++)
+            int  cartMy= 0;
+            int empMy = 0;
+
+            for (int i = 1; i < 3; i++)
             {
-                if (despacho[i].Emp == nEmp)
-                {
-                    most = despacho[i].CodigoPostal;
+                int carta = CantCorrXEmp(i);
+                if (i == 1 || cartMy < carta) {
+                    empMy = i;
+                    cartMy = carta;
                 }
             }
-            return most;
+            return empMy;
         }
         public double RecaudacionT()
         {
@@ -67,13 +70,19 @@ namespace Guia13POO.Models
             }
             return acum;
         }
-        public int TranspMyCorreo()
-        {
-
-        }
+     
         public int[] PrepararDisEmp(int emp,ref int cant)
         {
-
+            cant = 0;
+            int[] posiciones = new int[Ind];
+            for (int i = 0; i < Contador; i++)
+            {
+                if (despacho[i].Emp == emp)
+                {
+                    posiciones[cant] = i;
+                }
+            }
+            return posiciones;
         }
 
     }
