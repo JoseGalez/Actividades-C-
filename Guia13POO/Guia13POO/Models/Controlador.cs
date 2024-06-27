@@ -23,29 +23,51 @@ namespace Guia13POO.Models
         }
         public int CantCorrXEmp(int nEmp)
         {
+            int cont = 0;
             for (int i = 0; i < Contador; i++)
             {
                 if (despacho[i].Emp == nEmp)
                 {
-
+                    cont++;
                 }
-
-                     
             }
+            return cont;
         }
         public double RecxEmp(int nEmp)
         {
+            double acum = 0;
+            for (int i = 0; i < Contador; i++)
+            {
+                if (despacho[i].Emp == nEmp)
+                {
+                    acum += despacho[i].Pago;
+                }
+            }
+            return acum;
 
         }
         public int CorrspxEmp(int nEmp)
         {
-
+            int  most = 0;
+            for (int i = 0; i < Contador; i++)
+            {
+                if (despacho[i].Emp == nEmp)
+                {
+                    most = despacho[i].CodigoPostal;
+                }
+            }
+            return most;
         }
         public double RecaudacionT()
         {
-
+            double acum = 0;
+            for (int i = 0; i < Contador; i++)
+            {
+              acum += despacho[i].Pago;    
+            }
+            return acum;
         }
-        public int TransMyCorres()
+        public int TranspMyCorreo()
         {
 
         }

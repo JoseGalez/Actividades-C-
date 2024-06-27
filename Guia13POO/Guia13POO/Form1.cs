@@ -28,7 +28,7 @@ namespace Guia13POO
             while(nacho.ShowDialog() == DialogResult.OK)
             {
                 cp = Convert.ToInt32(nacho.tbCP.Text);
-                peso = Convert.ToInt32(nacho.tbPeso.Text);
+                peso = Convert.ToDouble(nacho.tbPeso.Text);
                 emp = Convert.ToInt32(nacho.cbNumero.Text);
                 escert = nacho.chbCertificada.Checked;
                 chino.Despachar(cp, peso, emp, escert);
